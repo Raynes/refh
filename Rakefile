@@ -17,8 +17,8 @@ Jeweler::Tasks.new do |gem|
   gem.name = "refh"
   gem.homepage = "http://github.com/Raynes/refh"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = %Q{A command-line application for pasting to RefHeap.}
+  gem.description = %Q{A command-line application for pasting to https://refheap.com.}
   gem.email = "i@raynes.me"
   gem.authors = ["Anthony Grimes"]
   # dependencies defined in Gemfile
