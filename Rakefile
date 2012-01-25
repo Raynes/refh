@@ -12,9 +12,11 @@ end
 require 'rake'
 
 require 'jeweler'
+require './lib/refh/version.rb'
 Jeweler::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
   gem.name = "refh"
+  gem.version = Refh::VERSION
   gem.homepage = "http://github.com/Raynes/refh"
   gem.license = "MIT"
   gem.summary = %Q{A command-line application for pasting to RefHeap.}

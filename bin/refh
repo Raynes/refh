@@ -3,9 +3,10 @@
 require 'rubyheap'
 require 'trollop'
 require 'yaml'
+require 'refh/version'
 
 opts = Trollop::options do
-  version "refh 0.1.0 -- https://github.com/Raynes/refh"
+  version "refh #{Refh::VERSION} -- https://github.com/Raynes/refh"
   banner <<-EOS
 Refh is a simple command-line application for pasting to https://refheap.com
 
