@@ -25,7 +25,13 @@ EOS
   opt :anon, "Make this paste anonymous, regardless of username and token settings."
 end
 
-config = YAML.load_file File.expand_path("~/.refh.yml")
+config_file = File.expand_path("~/.refh.yml")
+if File.exists? config_file
+  config = YAML.load_file File.expand_path("~/.refh.yml")
+else
+  config = {}
+end
+
 # The user and token options override the default settings in the yaml
 # config.
 user = opts[:user] || config['user']
