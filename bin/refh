@@ -28,6 +28,7 @@ end
 config_file = File.expand_path("~/.refh.yml")
 if File.exists? config_file
   config = YAML.load_file File.expand_path("~/.refh.yml")
+  config = config || {}
 else
   config = {}
 end
@@ -36,8 +37,6 @@ end
 # config.
 user = opts[:user] || config['user']
 token = opts[:token] || config['token']
-
-heap = nil
 
 languages = {"clj" => "Clojure",
              "cljs" => "Clojure",
