@@ -2,6 +2,7 @@
 
 require 'rubyheap'
 require 'trollop'
+require 'copier'
 require 'yaml'
 require 'refh/version'
 
@@ -24,6 +25,7 @@ EOS
   opt :user, "Set username.", :type => String
   opt :token, "Set token.", :type => String
   opt :anon, "Make this paste anonymous, regardless of username and token settings."
+  opt :copy, "Copy the paste URL to your clipboard."
 end
 
 config_file = File.expand_path("~/.refh.yml")
@@ -39,85 +41,85 @@ end
 user = opts[:user] || config['user']
 token = opts[:token] || config['token']
 
-languages = {"clj" => "Clojure",
-             "cljs" => "Clojure",
-             "fy" => "Fancy",
-             "groovy" => "Groovy",
-             "factor" => "Factor",
-             "io" => "Io",
-             "ioke" => "Ioke",
-             "lua" => "Lua",
-             "pl" => "Perl",
-             "perl" => "Perl",
-             "py" => "Python",
-             "rb" => "Ruby",
-             "mirah" => "Duby",
-             "tcl" => "Tcl",
-             "ada" => "Ada",
-             "c" => "C",
-             "cpp" => "C++",
-             "d" => "D",
-             "dylan" => "Dylan",
-             "flx" => "Felix",
-             "fortran" => "Fortran",
-             "nim" => "Nimrod",
-             "go" => "Go",
-             "java" => "Java",
-             "def" => "Modula-2",
-             "mod" => "Module-2",
-             "ooc" => "ooc",
-             "m" => "Objective-C",
-             "pro" => "Prolog",
-             "prolog" => "Prolog",
-             "scala" => "Scala",
-             "vala" => "Vala",
-             "boo" => "Boo",
-             "cs" => "C#",
-             "fs" => "F#",
-             "n" => "Nemerle",
-             "vb" => "VB.NET",
-             "lisp" => "Common Lisp",
-             "erl" => "Erlang",
-             "hs" => "Haskell",
-             "lhs" => "Literate Haskell",
-             "ml" => "OCaml",
-             "scm" => "Scheme",
-             "rkt" => "Scheme",
-             "ss" => "Scheme",
-             "v" => "Verilog",
-             "r" => "R",
-             "abap" => "ABAP",
-             "applescript" => "AppleScript",
-             "ahk" => "Autohotkey",
-             "awk" => "Awk",
-             "sh" => "Bash",
-             "bat" => "Batch",
-             "bf" => "Brainfuck",
-             "befunge" => "Befunge",
-             "ns2" => "NewSpeak",
-             "ps" => "PostScript",
-             "proto" => "Protobuf",
-             "r3" => "REBOL",
-             "st" => "Smalltalk",
-             "cmake" => "CMake",
-             "dpatch" => "Darcs Patch",
-             "diff" => "Diff",
-             "init" => "INI",
-             "properties" => "Java Properties",
-             "rst" => "rST",
-             "tex" => "LaTeX",
-             "vim" => "VimL",
-             "yaml" => "YAML",
+languages = {"clj"          => "Clojure",
+             "cljs"         => "Clojure",
+             "fy"           => "Fancy",
+             "groovy"       => "Groovy",
+             "factor"       => "Factor",
+             "io"           => "Io",
+             "ioke"         => "Ioke",
+             "lua"          => "Lua",
+             "pl"           => "Perl",
+             "perl"         => "Perl",
+             "py"           => "Python",
+             "rb"           => "Ruby",
+             "mirah"        => "Duby",
+             "tcl"          => "Tcl",
+             "ada"          => "Ada",
+             "c"            => "C",
+             "cpp"          => "C++",
+             "d"            => "D",
+             "dylan"        => "Dylan",
+             "flx"          => "Felix",
+             "fortran"      => "Fortran",
+             "nim"          => "Nimrod",
+             "go"           => "Go",
+             "java"         => "Java",
+             "def"          => "Modula-2",
+             "mod"          => "Module-2",
+             "ooc"          => "ooc",
+             "m"            => "Objective-C",
+             "pro"          => "Prolog",
+             "prolog"       => "Prolog",
+             "scala"        => "Scala",
+             "vala"         => "Vala",
+             "boo"          => "Boo",
+             "cs"           => "C#",
+             "fs"           => "F#",
+             "n"            => "Nemerle",
+             "vb"           => "VB.NET",
+             "lisp"         => "Common Lisp",
+             "erl"          => "Erlang",
+             "hs"           => "Haskell",
+             "lhs"          => "Literate Haskell",
+             "ml"           => "OCaml",
+             "scm"          => "Scheme",
+             "rkt"          => "Scheme",
+             "ss"           => "Scheme",
+             "v"            => "Verilog",
+             "r"            => "R",
+             "abap"         => "ABAP",
+             "applescript"  => "AppleScript",
+             "ahk"          => "Autohotkey",
+             "awk"          => "Awk",
+             "sh"           => "Bash",
+             "bat"          => "Batch",
+             "bf"           => "Brainfuck",
+             "befunge"      => "Befunge",
+             "ns2"          => "NewSpeak",
+             "ps"           => "PostScript",
+             "proto"        => "Protobuf",
+             "r3"           => "REBOL",
+             "st"           => "Smalltalk",
+             "cmake"        => "CMake",
+             "dpatch"       => "Darcs Patch",
+             "diff"         => "Diff",
+             "init"         => "INI",
+             "properties"   => "Java Properties",
+             "rst"          => "rST",
+             "tex"          => "LaTeX",
+             "vim"          => "VimL",
+             "yaml"         => "YAML",
              "coffeescript" => "CoffeeScript",
-             "css" => "CSS",
-             "html" => "HTML",
-             "xml" => "XML",
-             "haml" => "HAML",
-             "js" => "Javascript",
-             "php" => "PHP",
-             "sass" => "SASS",
-             "txt" => "Plain Text",
-             "scaml" => "Scaml"}
+             "css"          => "CSS",
+             "html"         => "HTML",
+             "xml"          => "XML",
+             "haml"         => "HAML",
+             "js"           => "Javascript",
+             "php"          => "PHP",
+             "sass"         => "SASS",
+             "txt"          => "Plain Text",
+             "scaml"        => "Scaml"}
 
 languages.default("Plain Text")
 
@@ -131,12 +133,16 @@ create_opts = {:private => opts[:private],
                :language => opts[:language]}
 
 file = ARGV.first
+url = nil
 if file
   unless create_opts[:language]
     file = File.expand_path(file)
     create_opts['language'] = languages[File.extname(file)[1..-1]]
   end
-  puts heap.create(File.open(file).read, create_opts)['url']
+  file = heap.create(File.open(file).read, create_opts)['url']
 else
-  puts heap.create(STDIN.read, create_opts)['url']
+  file = heap.create(STDIN.read, create_opts)['url']
 end
+
+puts file
+Copier(file) if opts[:copy]
