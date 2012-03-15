@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby
+#!/usr/bin/env ruby -I./lib
 
 require 'rubyheap'
 require 'trollop'
@@ -15,7 +15,7 @@ Usage:
       refh [options] <filename>
       refh [options]
 
-If the second form is used, input will be expected on stdin. 
+If the second form is used, input will be expected on stdin.
 
 Options are:
 EOS
@@ -41,88 +41,6 @@ end
 user = opts[:user] || config['user']
 token = opts[:token] || config['token']
 
-languages = {"clj"          => "Clojure",
-             "cljs"         => "Clojure",
-             "fy"           => "Fancy",
-             "groovy"       => "Groovy",
-             "factor"       => "Factor",
-             "io"           => "Io",
-             "ioke"         => "Ioke",
-             "lua"          => "Lua",
-             "pl"           => "Perl",
-             "perl"         => "Perl",
-             "py"           => "Python",
-             "rb"           => "Ruby",
-             "mirah"        => "Duby",
-             "tcl"          => "Tcl",
-             "ada"          => "Ada",
-             "c"            => "C",
-             "cpp"          => "C++",
-             "d"            => "D",
-             "dylan"        => "Dylan",
-             "flx"          => "Felix",
-             "fortran"      => "Fortran",
-             "nim"          => "Nimrod",
-             "go"           => "Go",
-             "java"         => "Java",
-             "def"          => "Modula-2",
-             "mod"          => "Module-2",
-             "ooc"          => "ooc",
-             "m"            => "Objective-C",
-             "pro"          => "Prolog",
-             "prolog"       => "Prolog",
-             "scala"        => "Scala",
-             "vala"         => "Vala",
-             "boo"          => "Boo",
-             "cs"           => "C#",
-             "fs"           => "F#",
-             "n"            => "Nemerle",
-             "vb"           => "VB.NET",
-             "lisp"         => "Common Lisp",
-             "erl"          => "Erlang",
-             "hs"           => "Haskell",
-             "lhs"          => "Literate Haskell",
-             "ml"           => "OCaml",
-             "scm"          => "Scheme",
-             "rkt"          => "Scheme",
-             "ss"           => "Scheme",
-             "v"            => "Verilog",
-             "r"            => "R",
-             "abap"         => "ABAP",
-             "applescript"  => "AppleScript",
-             "ahk"          => "Autohotkey",
-             "awk"          => "Awk",
-             "sh"           => "Bash",
-             "bat"          => "Batch",
-             "bf"           => "Brainfuck",
-             "befunge"      => "Befunge",
-             "ns2"          => "NewSpeak",
-             "ps"           => "PostScript",
-             "proto"        => "Protobuf",
-             "r3"           => "REBOL",
-             "st"           => "Smalltalk",
-             "cmake"        => "CMake",
-             "dpatch"       => "Darcs Patch",
-             "diff"         => "Diff",
-             "init"         => "INI",
-             "properties"   => "Java Properties",
-             "rst"          => "rST",
-             "tex"          => "LaTeX",
-             "vim"          => "VimL",
-             "yaml"         => "YAML",
-             "coffeescript" => "CoffeeScript",
-             "css"          => "CSS",
-             "html"         => "HTML",
-             "xml"          => "XML",
-             "haml"         => "HAML",
-             "js"           => "Javascript",
-             "php"          => "PHP",
-             "sass"         => "SASS",
-             "txt"          => "Plain Text",
-             "scaml"        => "Scaml"}
-
-languages.default("Plain Text")
-
 if user && token && !opts[:anon]
   heap = Refheap::Paste.new user, token
 else
@@ -137,7 +55,7 @@ url = nil
 if file
   unless create_opts[:language]
     file = File.expand_path(file)
-    create_opts['language'] = languages[File.extname(file)[1..-1]]
+    create_opts['language'] = File.extname(file)
   end
   file = heap.create(File.open(file).read, create_opts)['url']
 else
