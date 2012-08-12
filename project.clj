@@ -9,4 +9,4 @@
   :cljsbuild {:builds [{:source-path "src"
                         :compiler {:output-to "refh.js"
                                    :target :nodejs
-                                   :optimizations :advanced}}]})
+                                   :optimizations :simple}}]})
