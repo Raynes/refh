@@ -5,6 +5,7 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.4.0"]]
   :plugins [[lein-cljsbuild "0.2.5"]]
+  :extra-classpath-dirs ["checkouts"]
   :cljsbuild {:builds [{:source-path "src"
                         :compiler {:output-to "refh.js"
                                    :target :nodejs
