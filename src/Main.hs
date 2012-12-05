@@ -8,7 +8,6 @@ import System.FilePath ((</>), takeExtension)
 import Control.Monad (when)
 import System.Console.CmdArgs
 import Network.URI (URI)
-import qualified System.IO as HIO
 
 config :: IO (Maybe (String, String))
 config = do
@@ -38,8 +37,8 @@ defArgs = do
                , copy     = True  &= help "True by default. If true, copy resulting link to clipboard."
                , language = def   &= help "Must be exactly as the language name appears on refheap's dropdown."
                , anon     = False &= help "Paste anonymously regardless of username and token settings."
-               , file     = def   &= help (concat ["Paste from this file instead of stdin. If ",
-                                                   "extension is present, use it to determine language."])
+               , file     = def   &= help "Paste from this file instead of stdin. If "
+                            ++ "extension is present, use it to determine language."
                , private  = False &= help "False by default. If true, make paste private."
                } &= summary "refh v0.1.0"
   cfg <- config
@@ -58,7 +57,7 @@ pickLang file language
   where ext = takeExtension file
 
 readBody :: String -> IO String
-readBody ""   = HIO.hGetContents HIO.stdin
+readBody ""   = getContents
 readBody file = readFile file
 
 auth :: Bool -> String -> String -> Maybe (String, String)
