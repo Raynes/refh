@@ -42,4 +42,4 @@ cabal install refh
 
 If not, I'll put together some binaries for the various platforms. I don't have
 access to Windows though, so unless someone contributes it, I can't produce
-binaries for that. Check the Download section for binaries.
+binaries for that. Check [here](http://raynes.me/refh/) for binaries.
