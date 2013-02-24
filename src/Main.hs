@@ -37,8 +37,7 @@ defArgs = do
                , copy     = True  &= help "True by default. If true, copy resulting link to clipboard."
                , language = def   &= help "Must be exactly as the language name appears on refheap's dropdown."
                , anon     = False &= help "Paste anonymously regardless of username and token settings."
-               , file     = def   &= help "Paste from this file instead of stdin. If "
-                            ++ "extension is present, use it to determine language."
+               , file     = def   &= help "Paste from this file instead of stdin. If extension is present, use it to determine language."
                , private  = False &= help "False by default. If true, make paste private."
                } &= summary "refh v0.1.0"
   cfg <- config
@@ -73,6 +72,7 @@ main :: IO ()
 main = do
   defaults   <- defArgs
   parsedArgs <- cmdArgs defaults
+  putStrLn $ show parsedArgs
   body       <- readBody $ file parsedArgs
   let lang  = pickLang (file parsedArgs) (language parsedArgs)
       creds = auth (anon parsedArgs) (userName parsedArgs) (token parsedArgs)
