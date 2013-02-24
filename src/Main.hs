@@ -39,7 +39,7 @@ defArgs = do
                , anon     = False &= help "Paste anonymously regardless of username and token settings."
                , file     = def   &= help "Paste from this file instead of stdin. If extension is present, use it to determine language."
                , private  = False &= help "False by default. If true, make paste private."
-               } &= summary "refh v0.1.1"
+               } &= summary "refh v0.1.2"
   cfg <- config
   case cfg of
     Just (user, token) -> return a { userName = user
