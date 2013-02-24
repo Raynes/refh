@@ -2,7 +2,7 @@
 -- see http://haskell.org/cabal/users-guide/
 
 name:                refh
-version:             0.1.0
+version:             0.1.1
 synopsis:            A command-line tool for pasting to https://www.refheap.com
 -- description:         
 homepage:            https://github.com/Raynes/refh
