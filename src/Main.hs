@@ -72,7 +72,6 @@ main :: IO ()
 main = do
   defaults   <- defArgs
   parsedArgs <- cmdArgs defaults
-  putStrLn $ show parsedArgs
   body       <- readBody $ file parsedArgs
   let lang  = pickLang (file parsedArgs) (language parsedArgs)
       creds = auth (anon parsedArgs) (userName parsedArgs) (token parsedArgs)
